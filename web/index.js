@@ -133,6 +133,8 @@ export async function createServer(
   // attribute, as a result of the express.json() middleware
   app.use(express.json());
 
+  app.use(main);
+
   applyQrCodeApiEndpoints(app);
 
 

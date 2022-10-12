@@ -1,28 +1,23 @@
-import { useNavigate, TitleBar, Loading } from "@shopify/app-bridge-react";
-import { QRCodeIndex } from "../components";
+import { Loading } from "@shopify/app-bridge-react";
 import { useAppQuery } from "../hooks";
 import {
   Card,
-  EmptyState,
   Layout,
   Page,
   SkeletonBodyText,
 } from "@shopify/polaris";
 import { ProductList } from "../components/ProductList";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function HomePage() {
 
-  const navigate = useNavigate();
-  const {
-    data: QRCodes,
-    isLoading,
-    isRefetching,
-  } = useAppQuery({
-      url: "/api/qrcodes",
-    });
+const [product_id, setProduct_id] = useState(null);
 
   const {
     data: Products,
+    isLoading,
+    isRefetching,
 
   } = useAppQuery({
       url: "/api/products",
@@ -30,16 +25,10 @@ export default function HomePage() {
 
 
   const handleSeoOptimize = async (id) => {
-    const products = useAppQuery({
-      url: `/api/products/${id}`,
-      reactQueryOptions: {
-        /* Disable refetching because the QRCodeForm component ignores changes to its props */
-        refetchOnReconnect: false,
-      },
-    });
-
-    console.log(products);    
+    setProduct_id(id);
   }
+
+  const { data: get_product, } = useAppQuery({  url: `/api/products/${product_id}`,  reactQueryOptions: { refetchOnReconnect: false, } });
 
   const productLists = Products?.length ? (
     <ProductList products={Products} loading={isRefetching} handleSeoOptimize={handleSeoOptimize} />

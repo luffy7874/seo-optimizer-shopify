@@ -13,16 +13,22 @@ export default function productEndpoints(app) {
     })
 
     app.get("/api/products/:id", async (req, res) => {
-        const session = await Shopify.Utils.loadCurrentSession(
-            req,
-            res,
-            app.get("use-online-tokens")
-        );
-        const products = await Product.find({
-            session,
-            id: req.params.id,
-        });
 
-        console.log(products);
+        // console.log(req.params.id);
+        if(req.params.id != "null"){
+            const session = await Shopify.Utils.loadCurrentSession(
+                req,
+                res,
+                app.get("use-online-tokens")
+            );
+            const products = await Product.find({
+                session,
+                id: req.params.id,
+            });
+    
+            console.log(products);
+        }else{
+            console.log("hi");
+        }
     })
 }
