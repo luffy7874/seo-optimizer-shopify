@@ -27,8 +27,8 @@ export default function productEndpoints(app) {
             });
     
             console.log(products);
-        }else{
-            console.log("hi");
+
+            
         }
     })
 }
